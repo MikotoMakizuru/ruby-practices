@@ -23,7 +23,7 @@ firstday_wday = Date.new(year,mon,1).wday        # 曜日を返す。1で1日の
 lastday_date = Date.new(year,mon,-1).day         # 月の日にちを返す。-1で最終日を取得
 
 puts month_ad.center(20)
-puts days.join(" ") # 曜日の間と間に空白を出力 
+puts days.join(" ")  # 曜日の間と間に空白を出力 
 print "   " * firstday_wday #1日までに空白を入れる
 
 (1..lastday_date).each do |date| # 1日から最終日まで繰り返す
