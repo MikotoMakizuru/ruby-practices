@@ -19,9 +19,13 @@ def files_retrieve
 end
 
 def files_count
-  file_count_num = (files_retrieve.size / NUM_COLUMN).ceil(0)
+  file_count_num = (files_retrieve.size / NUM_COLUMN.to_f).ceil(0)
   file_element_segmentation = files_retrieve.each_slice(file_count_num).to_a
-  file_element_segmentation.transpose
+  if file_element_segmentation.count == 1
+    file_element_segmentation
+  else
+    file_element_segmentation.reduce(&:zip).map(&:flatten)
+  end
 end
 
 main
