@@ -5,12 +5,10 @@ SPACE_WIDTH = 24
 
 def main
   files_count.each do |files|
-    remove_nil_files = files.compact
-    line = remove_nil_files.sum('') do |file|
+    line = files.compact.sum('') do |file|
       file.ljust(SPACE_WIDTH)
     end
-    print line.rstrip
-    print "\n"
+    puts line.rstrip
   end
 end
 
@@ -20,13 +18,11 @@ end
 
 def files_count
   files = find_files
-  division_linecount_count_file = (files.size / COLUMN_SIZE.to_f).ceil(0)
-  segment_file = files.each_slice(division_linecount_count_file).to_a
-  if segment_file.count == 1
-    segment_file
-  else
-    segment_file.inject(&:zip).map(&:flatten)
-  end
+  return [files] if files.size == 1
+
+  row_count = (files.size / COLUMN_SIZE.to_f).ceil
+  segment_files = files.each_slice(row_count).to_a
+  segment_files.inject(&:zip).map(&:flatten)
 end
 
 main
