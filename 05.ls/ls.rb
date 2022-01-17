@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'optparse'
+
 COLUMN_SIZE = 3
 SPACE_WIDTH = 24
 
@@ -13,7 +15,8 @@ def main
 end
 
 def find_files
-  Dir.glob('*')
+  option = ARGV.getopts('a')
+  option['a'] ? Dir.glob('*', File::FNM_DOTMATCH) : Dir.glob('*')
 end
 
 def files_count
