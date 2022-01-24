@@ -15,8 +15,8 @@ def main
 end
 
 def find_files
-  option = ARGV.getopts('a')
-  option['a'] ? Dir.glob('*', File::FNM_DOTMATCH) : Dir.glob('*')
+  option = ARGV.getopts('r')
+  option['r'] ? Dir.glob('*').reverse : Dir.glob('*')
 end
 
 def files_count
