@@ -30,7 +30,7 @@ PERMISSION = {
 def main(options)
   flags = options['a'] ? File::FNM_DOTMATCH : 0
   file_names = Dir.glob('*', flags)
-  options['r'] ? file_names.reverse! : file_names
+  file_names.reverse! if options['r']
 
   if options['l']
     block_size, files = retrieve_files_info(file_names)
@@ -54,7 +54,7 @@ def retrieve_files_info(file_names)
     files[name][:group] = Etc.getgrgid(file_stat.gid).name
     files[name][:size] = file_stat.size
     files[name][:mtime] = file_stat.mtime
-    files[name][:file_name] = file_symlink_whether(name)
+    files[name][:file_name] = format_file_name(name)
   end
   [block_size, files]
 end
@@ -68,7 +68,7 @@ def retrieve_permission(file_stat)
   permissions
 end
 
-def file_symlink_whether(name)
+def format_file_name(name)
   File.lstat(name).symlink? ? "#{name} -> #{File.readlink(name)}" : name
 end
 
@@ -81,9 +81,7 @@ def display_files_info(block_size, files)
     print file[:user].rjust(7)
     print file[:group].rjust(7)
     print file[:size].to_s.rjust(6)
-    print file[:mtime].month.to_s.rjust(3)
-    print file[:mtime].day.to_s.rjust(3)
-    print file[:mtime].strftime('%H:%M').to_s.rjust(6)
+    print file[:mtime].strftime('%_m %_d %H:%M').to_s.rjust(12)
     print " #{file[:file_name]}"
     print "\n"
   end
