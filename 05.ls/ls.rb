@@ -81,7 +81,7 @@ def display_files_info(block_size, files)
     print file[:user].rjust(7)
     print file[:group].rjust(7)
     print file[:size].to_s.rjust(6)
-    print file[:mtime].strftime('%_m %_d %H:%M').to_s.rjust(12)
+    print file[:mtime].strftime(' %_m %_d %H:%M')
     print " #{file[:file_name]}"
     print "\n"
   end
