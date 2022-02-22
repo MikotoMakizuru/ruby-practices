@@ -2,7 +2,7 @@
 
 require 'minitest/autorun'
 require 'pathname'
-require_relative '../lib/ls_command.rb'
+require_relative '../lib/ls_command'
 
 class LsCommandTest < Minitest::Test
   TARGET_PATHNAME = Pathname('test/fixtures/sample-app')

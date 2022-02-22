@@ -14,7 +14,7 @@ opt.on('-l') { |v| params[:long_format] = v }
 opt.on('-r') { |v| params[:reverse] = v }
 opt.on('-a') { |v| params[:show_dots] = v }
 opt.parse!(ARGV)
-path = ARGV[0] ? ARGV[0] : '.'
+path = ARGV[0] || '.'
 pathname = Pathname(path)
 width = IO.console.winsize[1]
 
