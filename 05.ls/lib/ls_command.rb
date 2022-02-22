@@ -13,7 +13,7 @@ MODE_TABLE = {
   '7' => 'rwx'
 }.freeze
 
-def run_ls(pathname, width: 80, long_format: false, reverse: false, show_dots: false)
+def run_ls(_pathname, width: 80, long_format: false, reverse: false, show_dots: false)
   params = show_dots ? ['test/fixtures/sample-app/*', File::FNM_DOTMATCH] : ['test/fixtures/sample-app/*']
   filenames = Pathname.glob(*params).sort
   filenames = filenames.reverse if reverse
@@ -45,7 +45,7 @@ def format_row(pathname, max_nlink, max_user_length, max_group_length, max_size)
   ret = ''
   stat = pathname.stat
   ret += pathname.directory? ? 'd' : '-'
-  mode = sprintf('%#o', stat.mode)[-3..-1]
+  mode = stat.mode.to_s(8)[-3..]
   ret += format_mode(mode)
   ret += "  #{stat.nlink.to_s.rjust(max_nlink)}"
   ret += " #{Etc.getpwuid(stat.uid).name.ljust(max_user_length)}"
@@ -71,7 +71,7 @@ def ls_short(pathname, width)
 end
 
 def safe_transpose(nested_file_names)
-  nested_file_names[0].zip(*nested_file_names[1..-1])
+  nested_file_names[0].zip(*nested_file_names[1..])
 end
 
 def format_teble(pathname, max_filename_count)
