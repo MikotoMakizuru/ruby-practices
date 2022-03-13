@@ -42,47 +42,33 @@ def retrieve_file_info
 end
 
 def display_number_of_line(file_info, count_line_total)
-  if file_info.size <= 1
-    file_info.each_value do |file|
-      print file[:count_line].to_s.rjust(8)
-      print " #{file[:file_name]}"
-      print "\n"
-    end
-  else
-    file_info.each_value do |file|
-      print file[:count_line].to_s.rjust(8)
-      print " #{file[:file_name]}"
-      print "\n"
-    end
-    print " #{count_line_total}".to_s.rjust(8)
-    print ' total'
+  file_info.each_value do |file|
+    print file[:count_line].to_s.rjust(8)
+    print " #{file[:file_name]}"
     print "\n"
   end
+  return unless file_info.size >= 2
+
+  print " #{count_line_total}".to_s.rjust(8)
+  print ' total'
+  print "\n"
 end
 
 def display_files_info(file_info, count_line_total, count_word_total, bytes_total)
-  if file_info.size <= 1
-    file_info.each_value do |file|
-      print file[:count_line].to_s.rjust(8)
-      print file[:count_word].to_s.rjust(8)
-      print file[:bytes].to_s.rjust(8)
-      print " #{file[:file_name]}"
-      print "\n"
-    end
-  else
-    file_info.each_value do |file|
-      print file[:count_line].to_s.rjust(8)
-      print file[:count_word].to_s.rjust(8)
-      print file[:bytes].to_s.rjust(8)
-      print " #{file[:file_name]}"
-      print "\n"
-    end
-    print " #{count_line_total}".to_s.rjust(8)
-    print " #{count_word_total}".to_s.rjust(8)
-    print " #{bytes_total}".to_s.rjust(8)
-    print ' total'
+  file_info.each_value do |file|
+    print file[:count_line].to_s.rjust(8)
+    print file[:count_word].to_s.rjust(8)
+    print file[:bytes].to_s.rjust(8)
+    print " #{file[:file_name]}"
     print "\n"
   end
+  return unless file_info.size >= 2
+
+  print " #{count_line_total}".to_s.rjust(8)
+  print " #{count_word_total}".to_s.rjust(8)
+  print " #{bytes_total}".to_s.rjust(8)
+  print ' total'
+  print "\n"
 end
 
 options = ARGV.getopts('l')
