@@ -9,34 +9,29 @@ def main(options)
     display_number_of_line(file_info, count_line_total)
   else
     file_info, count_line_total, count_word_total, bytes_total = retrieve_file_info
-    display_files_info(file_info, count_line_total, count_word_total, bytes_total)
+    display_file_info(file_info, count_line_total, count_word_total, bytes_total)
   end
 end
 
 def retrieve_file_info
-  file_info = Hash.new { |hash, key| hash[key] = {} }
-  if ARGV.empty?
-    file_text = $stdin.read
+  file_info = {}
+  count_line_total = 0
+  count_word_total = 0
+  bytes_total = 0
 
-    file_info[$stdin][:count_line] = file_text.count("\n")
-    file_info[$stdin][:count_word] = file_text.split(/\s/).count
-    file_info[$stdin][:bytes] = file_text.bytesize
-  else
-    count_line_total = 0
-    count_word_total = 0
-    bytes_total = 0
-    ARGV.each do |file_name|
-      file_text = File.read(file_name)
+  target_contents = ARGV.empty? ? [$stdin.read] : ARGV
+  target_contents.each do |content|
+    file_text = target_contents == ARGV ? File.read(content) : content
 
-      file_info[file_name][:count_line] = file_text.count("\n")
-      file_info[file_name][:count_word] = file_text.split(/\s/).count
-      file_info[file_name][:bytes] = file_text.bytesize
-      file_info[file_name][:file_name] = file_name
+    file_info[content] = {}
+    file_info[content][:count_line] = file_text.count("\n")
+    file_info[content][:count_word] = file_text.split(/\s/).count
+    file_info[content][:bytes] = file_text.bytesize
+    file_info[content][:file_name] = target_contents == ARGV ? content : nil
 
-      count_line_total += file_text.count("\n")
-      count_word_total += file_text.split(/\s/).count
-      bytes_total += file_text.bytesize
-    end
+    count_line_total += file_text.count("\n")
+    count_word_total += file_text.split(/\s/).count
+    bytes_total += file_text.bytesize
   end
   [file_info, count_line_total, count_word_total, bytes_total]
 end
@@ -54,12 +49,12 @@ def display_number_of_line(file_info, count_line_total)
   print "\n"
 end
 
-def display_files_info(file_info, count_line_total, count_word_total, bytes_total)
-  file_info.each_value do |file|
-    print file[:count_line].to_s.rjust(8)
-    print file[:count_word].to_s.rjust(8)
-    print file[:bytes].to_s.rjust(8)
-    print " #{file[:file_name]}"
+def display_file_info(file_info, count_line_total, count_word_total, bytes_total)
+  file_info.each_value do |info|
+    print info[:count_line].to_s.rjust(8)
+    print info[:count_word].to_s.rjust(8)
+    print info[:bytes].to_s.rjust(8)
+    print " #{info[:file_name]}"
     print "\n"
   end
   return unless file_info.size >= 2
