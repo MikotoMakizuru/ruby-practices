@@ -11,24 +11,24 @@ end
 
 def retrieve_file_info
   file_info = []
-  count_line_total = 0
-  count_word_total = 0
-  bytes_total = 0
-
+  count_line_total, count_word_total, bytes_total = 0, 0, 0,
   target_contents = ARGV.empty? ? [$stdin.read] : ARGV
   target_contents.each do |content|
     file_text = target_contents == ARGV ? File.read(content) : content
+    count_line = file_text.count("\n")
+    count_word = file_text.split.size
+    bytes = file_text.bytesize
 
     file_info << {
-      count_line: file_text.count("\n"),
-      count_word: file_text.split(/\s/).count,
-      bytes: file_text.bytesize,
+      count_line: count_line,
+      count_word: count_word,
+      bytes: bytes,
       file_name: target_contents == ARGV ? content : nil
     }
 
-    count_line_total += file_text.count("\n")
-    count_word_total += file_text.split(/\s/).count
-    bytes_total += file_text.bytesize
+    count_line_total += count_line
+    count_word_total += count_word
+    bytes_total += bytes
   end
   [file_info, count_line_total, count_word_total, bytes_total]
 end
