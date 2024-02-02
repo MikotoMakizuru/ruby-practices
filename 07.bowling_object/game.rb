@@ -3,24 +3,24 @@
 require_relative 'frame'
 
 class Game
-  def initialize(shots)
-    @shots = shots
+  def initialize(frames)
+    @frames = frames
   end
 
   def score
-    frames = split_frame_array
+    @frames = split_frame_array
     game_score = 0
     10.times do |idx|
-      frame = Frame.new(frames[idx])
+      frame = Frame.new(@frames[idx])
       game_score += frame.score
 
-      frames[idx + 1] ||= []
-      frames[idx + 2] ||= []
+      @frames[idx + 1] ||= []
+      @frames[idx + 2] ||= []
       if frame.strike?
-        next_frame = (frames[idx + 1] + frames[idx + 2]).slice(0, 2)
+        next_frame = (@frames[idx + 1] + @frames[idx + 2]).slice(0, 2)
         game_score += next_frame.sum { |s| Shot.new(s).score }
       elsif frame.spare?
-        next_shot = frames[idx + 1][0]
+        next_shot = @frames[idx + 1][0]
         game_score += Shot.new(next_shot).score
       end
     end
@@ -28,7 +28,7 @@ class Game
   end
 
   def split_frame_array
-    shots = @shots.split(',')
+    shots = @frames.split(',')
     frame = []
     frames = []
     shots.each do |s|
