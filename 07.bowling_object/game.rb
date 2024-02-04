@@ -8,7 +8,7 @@ class Game
   end
 
   def score
-    @frames = split_frame_array
+    @frames = parse_frames
     game_score = 0
     10.times do |idx|
       frame = Frame.new(@frames[idx])
@@ -27,7 +27,7 @@ class Game
     game_score
   end
 
-  def split_frame_array
+  def parse_frames
     shots = @frames.split(',')
     frame = []
     frames = []
