@@ -18,7 +18,7 @@ class Game
       @frames[idx + 2] ||= []
       if frame.strike?
         next_frame = (@frames[idx + 1] + @frames[idx + 2]).slice(0, 2)
-        game_score += next_frame.sum { |s| Shot.new(s).score }
+        game_score += Frame.new(next_frame).score
       elsif frame.spare?
         next_shot = @frames[idx + 1][0]
         game_score += Shot.new(next_shot).score
