@@ -27,6 +27,8 @@ class Game
     game_score
   end
 
+  private
+
   def parse_frames
     shots = @frames.split(',')
     frame = []
