@@ -9,7 +9,7 @@ class Frame
     @third_shot = Shot.new(frame[2])
   end
 
-  def score
+  def calculate_frame_score
     [@first_shot.score, @second_shot.score, @third_shot.score].sum
   end
 
