@@ -32,37 +32,32 @@ class Game
   def parse_input_with_three_values
     parsed_input = parse_input
     frames = []
+
     9.times do |idx|
       frame = parsed_input[idx]
+
       if frame.one? && frame.first == 'X'
         next_frame = parse_input[idx + 1]
+
         if next_frame.one? && next_frame.first == 'X'
           next_after_frame = parse_input[idx + 2]
-          frame = frame + next_frame + next_after_frame
-          frames << if frame.size > 3
-              frame[0..2]
-            else
-              frame
-          end
+          frame.concat(next_frame).concat(next_after_frame)
         else
           frame.concat(next_frame)
-          if frame.size > 3
-            frames << frame[0..2]
-          else
-            frames << frame
-          end
         end
       elsif frame.size < 3
         next_frame = parse_input[idx + 1]
-        if next_frame
-          frame << next_frame[0]
-        end
-        frames << frame
+        frame << next_frame[0] if next_frame
       end
+
+      frames << if frame.size > 3
+                  frame[0..2]
+                else
+                  frame
+                end
     end
-    if frames.size < 10
-      frames << parsed_input.last
-    end
+
+    frames << parsed_input.last if frames.size < 10
     frames
   end
 
