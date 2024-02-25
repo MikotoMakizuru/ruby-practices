@@ -35,18 +35,12 @@ class Game
 
     9.times do |idx|
       frame = parsed_input[idx]
+      next_frame = parse_input[idx + 1]
+      next_after_frame = parse_input[idx + 2]
 
-      if frame.one? && frame.first == 'X'
-        next_frame = parse_input[idx + 1]
-
-        if next_frame.one? && next_frame.first == 'X'
-          next_after_frame = parse_input[idx + 2]
-          frame.concat(next_frame).concat(next_after_frame)
-        else
-          frame.concat(next_frame)
-        end
+      if all_x_values?(frame)
+        concat_frame(frame, next_frame, next_after_frame, frames)
       elsif frame.size < 3
-        next_frame = parse_input[idx + 1]
         frame << next_frame[0] if next_frame
       end
 
@@ -78,5 +72,17 @@ class Game
       end
     end
     frames
+  end
+
+  def concat_frame(frame, next_frame, next_after_frame)
+    if all_x_values?(next_frame)
+      frame.concat(next_frame).concat(next_after_frame)
+    else
+      frame.concat(next_frame)
+    end
+  end
+
+  def all_x_values?(frame)
+    frame.one? && frame.first == 'X'
   end
 end
