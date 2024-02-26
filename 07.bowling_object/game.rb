@@ -39,7 +39,7 @@ class Game
       next_after_frame = parse_input[idx + 2]
 
       if all_x_values?(frame)
-        concat_frame(frame, next_frame, next_after_frame, frames)
+        concat_frame(frame, next_frame, next_after_frame)
       elsif frame.size < 3
         frame << next_frame[0] if next_frame
       end
