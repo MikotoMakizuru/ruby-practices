@@ -13,14 +13,14 @@ describe Frame do
   end
 
   describe '#strike?' do
-    context 'ストライクだったとき' do
+    context 'フレーム内の1投目がXだったとき' do
       example 'trueを返すこと' do
-        frame = Frame.new([10])
+        frame = Frame.new(['X'])
         expect(frame.strike?).to be true
       end
     end
 
-    context 'ストライクではないとき' do
+    context 'フレーム内の1投目がX以外だったとき' do
       example 'falseを返すこと' do
         frame = Frame.new([3, 5])
         expect(frame.strike?).to be false
@@ -29,7 +29,7 @@ describe Frame do
   end
 
   describe '#spare?' do
-    context 'スペアだったとき' do
+    context 'フレームの1投目と2透明の合計が10だったとき' do
       example 'trueを返すこと' do
         frame = Frame.new([8, 2])
         expect(frame.spare?).to be true
@@ -37,10 +37,17 @@ describe Frame do
     end
 
     context 'スペアではないとき' do
-      example 'falseを返すこと' do
+      example 'フレームの1投目と2透明の合計が10未満だったとき' do
         frame = Frame.new([7, 2])
         expect(frame.spare?).to be false
       end
+    end
+  end
+
+  context 'フレーム内の1投目がXだったとき' do
+    example 'falseを返すこと' do
+      frame = Frame.new(['X'])
+      expect(frame.spare?).to be false
     end
   end
 end
