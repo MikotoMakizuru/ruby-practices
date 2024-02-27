@@ -43,10 +43,10 @@ class Game
       end
 
       frames << if frame.size > 3
-      frame[0..2]
-      else
-        frame
-      end
+                  frame[0..2]
+                else
+                  frame
+                end
     end
     frames << parsed_input.last if frames.size < 10
     frames
