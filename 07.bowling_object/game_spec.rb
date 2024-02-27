@@ -33,15 +33,29 @@ describe Game do
     end
   end
 
-  describe '#parse_frames' do
+  describe '#parse_input' do
     context '有効な入力が行われたとき' do
       example '各フレームを配列で返すこと' do
         game = Game.new('6,3,9,0,0,3,8,2,7,3,X,9,1,8,0,X,6,4,5')
-        frames = game.send(:parse_frames)
+        frames = game.send(:parse_input)
         expect(frames).to eq([
           ["6", "3"], ["9", "0"], ["0", "3"], ["8", "2"],
           ["7", "3"], ["X"], ["9", "1"], ["8", "0"],
           ["X"], ["6", "4", "5"]
+        ])
+      end
+    end
+  end
+
+  describe '#parse_input_with_three_values' do
+    context '1つの配列が1から3つの値を持つ二次元配列を受け取ったとき' do
+      example '1つの配列が3つの値を持つ二次元配列を返すこと' do
+        game = Game.new('6,3,9,0,0,3,8,2,7,3,X,9,1,8,0,X,6,4,5')
+        frames = game.parse_input_with_three_values
+        expect(frames).to eq([["6", "3", "9"], ["9", "0", "0"],
+          ["0", "3", "8"], ["8", "2", "7"], ["7", "3", "X"],
+          ["X", "9", "1"], ["9", "1", "8"], ["8", "0", "X"],
+          ["X", "6", "4"], ["6", "4", "5"]
         ])
       end
     end

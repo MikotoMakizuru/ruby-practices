@@ -27,8 +27,6 @@ class Game
     game_score
   end
 
-  private
-
   def parse_input_with_three_values
     parsed_input = parse_input
     frames = []
@@ -45,15 +43,28 @@ class Game
       end
 
       frames << if frame.size > 3
-                  frame[0..2]
-                else
-                  frame
-                end
+      frame[0..2]
+      else
+        frame
+      end
     end
-
     frames << parsed_input.last if frames.size < 10
     frames
   end
+
+  def concat_frame(frame, next_frame, next_after_frame)
+    if all_x_values?(next_frame)
+      frame.concat(next_frame).concat(next_after_frame)
+    else
+      frame.concat(next_frame)
+    end
+  end
+
+  def all_x_values?(frame)
+    frame.one? && frame.first == 'X'
+  end
+
+  private
 
   def parse_input
     splitted_input = @input.split(',')
@@ -72,17 +83,5 @@ class Game
       end
     end
     frames
-  end
-
-  def concat_frame(frame, next_frame, next_after_frame)
-    if all_x_values?(next_frame)
-      frame.concat(next_frame).concat(next_after_frame)
-    else
-      frame.concat(next_frame)
-    end
-  end
-
-  def all_x_values?(frame)
-    frame.one? && frame.first == 'X'
   end
 end
