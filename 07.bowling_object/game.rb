@@ -8,20 +8,20 @@ class Game
   end
 
   def score
-    marks = parse_input_with_three_values
+    score_board = parse_input_with_three_values
     game_score = 0
     10.times do |idx|
-      frame = Frame.new(@frames[idx])
-      game_score += frame.calculate_frame_score
+      frame = Frame.new(score_board[idx])
+      @frames = score_board
 
-      @frames[idx + 1] ||= []
-      @frames[idx + 2] ||= []
       if frame.strike?
-        next_frame = (@frames[idx + 1] + @frames[idx + 2]).slice(0, 2)
-        game_score += Frame.new(next_frame).calculate_frame_score
+        game_score += frame.calculate_frame_score
       elsif frame.spare?
-        next_shot = @frames[idx + 1][0]
-        game_score += Shot.new(next_shot).score
+        game_score += frame.calculate_frame_score
+      else
+        @frames[idx].pop if @frames[idx].size > 2
+        frame = @frames[idx]
+        game_score += Frame.new(frame).calculate_frame_score
       end
     end
     game_score
