@@ -33,8 +33,8 @@ class Game
 
     9.times do |idx|
       frame = parsed_input[idx]
-      next_frame = parse_input[idx + 1]
-      next_after_frame = parse_input[idx + 2]
+      next_frame = parsed_input[idx + 1]
+      next_after_frame = parsed_input[idx + 2]
 
       if all_x_values?(frame)
         concat_frame(frame, next_frame, next_after_frame)
