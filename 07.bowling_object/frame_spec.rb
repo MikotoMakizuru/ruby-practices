@@ -29,25 +29,25 @@ describe Frame do
   end
 
   describe '#spare?' do
-    context 'フレームの1投目と2透明の合計が10だったとき' do
+    context 'フレームの1投目と2投目の合計が10だったとき' do
       example 'trueを返すこと' do
         frame = Frame.new([8, 2])
         expect(frame.spare?).to be true
       end
     end
 
-    context 'スペアではないとき' do
-      example 'フレームの1投目と2透明の合計が10未満だったとき' do
+    context 'フレームの1投目と2投目の合計が10未満だったとき' do
+      example 'falseを返すこと' do
         frame = Frame.new([7, 2])
         expect(frame.spare?).to be false
       end
     end
-  end
 
-  context 'フレーム内の1投目がXだったとき' do
-    example 'falseを返すこと' do
-      frame = Frame.new(['X'])
-      expect(frame.spare?).to be false
+    context 'フレーム内の1投目がXだったとき' do
+      example 'falseを返すこと' do
+        frame = Frame.new(['X'])
+        expect(frame.spare?).to be false
+      end
     end
   end
 end
