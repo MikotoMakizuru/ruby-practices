@@ -10,7 +10,13 @@ class Frame
   end
 
   def calculate_frame_score
-    [@first_shot.score, @second_shot.score, @third_shot.score].sum
+    if strike?
+      [@first_shot.score, @second_shot.score, @third_shot.score].sum
+    elsif spare?
+      [@first_shot.score, @second_shot.score, @third_shot.score].sum
+    else
+      [@first_shot.score, @second_shot.score].sum
+    end
   end
 
   def strike?
