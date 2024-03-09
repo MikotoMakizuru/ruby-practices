@@ -8,7 +8,7 @@ class Game
   end
 
   def score
-    score_board = parse_input_with_three_values
+    frames = create_frames
     game_score = 0
     10.times do |idx|
       frame = Frame.new(score_board[idx])
@@ -27,28 +27,33 @@ class Game
     game_score
   end
 
-  def parse_input_with_three_values
-    parsed_input = parse_input
-    frames = []
+  def create_frames
+    parsed_inputs = parse_inputs
+    source_frames = []
 
     9.times do |idx|
-      frame = parsed_input[idx]
-      next_frame = parsed_input[idx + 1]
-      next_after_frame = parsed_input[idx + 2]
+      source_frame = parsed_inputs[idx]
+      source_next_frame = parsed_inputs[idx + 1]
+      source_next_after_frame = parsed_inputs[idx + 2]
 
-      if all_x_values?(frame)
-        concat_frame(frame, next_frame, next_after_frame)
-      elsif frame.size < 3
-        frame << next_frame[0] if next_frame
+      if all_x_values?(source_frame)
+        concat_frame(source_frame, source_next_frame, source_next_after_frame)
+      elsif source_frame.size < 3
+        source_frame << source_next_frame[0] if source_next_frame
       end
 
-      frames << if frame.size > 3
-                  frame[0..2]
-                else
-                  frame
-                end
+      source_frames << if source_frame.size > 3
+                         source_frame[0..2]
+      else
+        source_frame
+      end
     end
-    frames << parsed_input.last if frames.size < 10
+    source_frames << parsed_inputs.last if source_frames.size < 10
+    frames = []
+    source_frames.each do |source_frame|
+      frame = Frame.new(source_frame)
+      frames << frame
+    end
     frames
   end
 
@@ -66,22 +71,22 @@ class Game
 
   private
 
-  def parse_input
-    splitted_input = @input.split(',')
-    frame = []
-    frames = []
-    splitted_input.each do |s|
-      frame << s
+  def parse_inputs
+    inputs = @input.split(',')
+    source_frame = []
+    source_frames = []
+    inputs.each do |input|
+      source_frame << input
 
-      if frames.size < 10
-        if frame.size >= 2 || s == 'X'
-          frames << frame.dup
-          frame.clear
+      if source_frames.size < 10
+        if source_frame.size >= 2 || input == 'X'
+          source_frames << source_frame.dup
+          source_frame.clear
         end
       else
-        frames.last << s
+        source_frames.last << input
       end
     end
-    frames
+    source_frames
   end
 end
