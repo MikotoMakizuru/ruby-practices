@@ -50,37 +50,37 @@ class Game
   end
 
   def source_frames_with_three_values(parsed_inputs)
-      source_frames = []
+    source_frames = []
 
-      9.times do |idx|
-        source_frame = parsed_inputs[idx]
-        source_next_frame = parsed_inputs[idx + 1]
-        source_next_after_frame = parsed_inputs[idx + 2]
-  
-        if all_x_values?(source_frame)
-          concat_source_frame(source_frame, source_next_frame, source_next_after_frame)
-        elsif source_frame.size < 3
-          source_frame << source_next_frame[0] if source_next_frame
-        end
-  
-        source_frames << if source_frame.size > 3
-                           source_frame[0..2]
-                         else
-                           source_frame
-                         end
+    9.times do |idx|
+      source_frame = parsed_inputs[idx]
+      source_next_frame = parsed_inputs[idx + 1]
+      source_next_after_frame = parsed_inputs[idx + 2]
+
+      if all_x_values?(source_frame)
+        concat_source_frame(source_frame, source_next_frame, source_next_after_frame)
+      elsif source_frame.size < 3
+        source_frame << source_next_frame[0] if source_next_frame
       end
-      source_frames << parsed_inputs.last if source_frames.size < 10
+
+      source_frames << if source_frame.size > 3
+                         source_frame[0..2]
+                       else
+                         source_frame
+                       end
+    end
+    source_frames << parsed_inputs.last if source_frames.size < 10
   end
-  
-    def concat_source_frame(source_frame, source_next_frame, source_next_after_frame)
-      if all_x_values?(source_next_frame)
-        source_frame.concat(source_next_frame).concat(source_next_after_frame)
-      else
-        source_frame.concat(source_next_frame)
-      end
+
+  def concat_source_frame(source_frame, source_next_frame, source_next_after_frame)
+    if all_x_values?(source_next_frame)
+      source_frame.concat(source_next_frame).concat(source_next_after_frame)
+    else
+      source_frame.concat(source_next_frame)
     end
-  
-    def all_x_values?(source_frame)
-      source_frame.one? && source_frame.first == 'X'
-    end
+  end
+
+  def all_x_values?(source_frame)
+    source_frame.one? && source_frame.first == 'X'
+  end
 end
