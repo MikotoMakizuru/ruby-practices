@@ -16,14 +16,14 @@ describe Frame do
     context 'フレーム内の1投目がXだったとき' do
       example 'trueを返すこと' do
         frame = Frame.new(['X'])
-        expect(frame.strike?).to be true
+        expect(frame.send(:strike?)).to be true
       end
     end
 
     context 'フレーム内の1投目がX以外だったとき' do
       example 'falseを返すこと' do
         frame = Frame.new([3, 5])
-        expect(frame.strike?).to be false
+        expect(frame.send(:strike?)).to be false
       end
     end
   end
@@ -32,21 +32,21 @@ describe Frame do
     context 'フレームの1投目と2投目の合計が10だったとき' do
       example 'trueを返すこと' do
         frame = Frame.new([8, 2])
-        expect(frame.spare?).to be true
+        expect(frame.send(:spare?)).to be true
       end
     end
 
     context 'フレームの1投目と2投目の合計が10未満だったとき' do
       example 'falseを返すこと' do
         frame = Frame.new([7, 2])
-        expect(frame.spare?).to be false
+        expect(frame.send(:spare?)).to be false
       end
     end
 
     context 'フレーム内の1投目がXだったとき' do
       example 'falseを返すこと' do
         frame = Frame.new(['X'])
-        expect(frame.spare?).to be false
+        expect(frame.send(:spare?)).to be false
       end
     end
   end

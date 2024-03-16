@@ -19,6 +19,8 @@ class Frame
     end
   end
 
+  private
+
   def strike?
     @first_shot.score == 10
   end
