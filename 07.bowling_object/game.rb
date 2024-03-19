@@ -11,7 +11,7 @@ class Game
     frames = create_frames
     game_score = 0
     frames.each do |frame|
-      game_score += frame.calculate_frame_score
+      game_score += frame.calculate_score
     end
     game_score
   end

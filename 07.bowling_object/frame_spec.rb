@@ -3,11 +3,11 @@
 require_relative 'frame'
 
 describe Frame do
-  describe '#calculate_frame_score' do
+  describe '#calculate_score' do
     context 'フレームの点数を受け取ったとき' do
       example '合計を返すこと' do
         frame = Frame.new([3, 5])
-        expect(frame.calculate_frame_score).to eq(3 + 5)
+        expect(frame.calculate_score).to eq(3 + 5)
       end
     end
   end
