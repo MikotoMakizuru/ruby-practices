@@ -9,11 +9,7 @@ class Game
 
   def score
     frames = create_frames
-    game_score = 0
-    frames.each do |frame|
-      game_score += frame.calculate_score
-    end
-    game_score
+    frames.sum(&:calculate_score)
   end
 
   private
@@ -28,7 +24,7 @@ class Game
     frames
   end
 
-  # 入力された得点を1つの配列が3つの要素を持つは次元配列にparseする
+  # 入力された得点を1つの配列が3つの要素を持つ多次元配列にparse
   def parse_inputs
     inputs = @input.split(',')
     source_frames = []
