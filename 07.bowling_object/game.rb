@@ -16,12 +16,9 @@ class Game
 
   def create_frames
     source_frames = parse_inputs
-    frames = []
-    source_frames.each do |source_frame|
-      frame = Frame.new(source_frame)
-      frames << frame
+    source_frames.map do |source_frame|
+      Frame.new(source_frame)
     end
-    frames
   end
 
   # 入力された得点を1つの配列が3つの要素を持つ多次元配列にparse
