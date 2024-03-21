@@ -3,48 +3,77 @@
 require_relative 'frame'
 
 class Game
-  attr_reader :marks
-
-  def initialize(shots)
-    @shots = shots
+  def initialize(input)
+    @input = input
   end
 
   def score
-    frames = split_frame_array
-    game_score = 0
-    10.times do |idx|
-      frame = Frame.new(frames[idx])
-      game_score += frame.score
-
-      frames[idx + 1] ||= []
-      frames[idx + 2] ||= []
-      if frame.strike?
-        next_frame = (frames[idx + 1] + frames[idx + 2]).slice(0, 2)
-        game_score += next_frame.sum { |s| Shot.new(s).score }
-      elsif frame.spare?
-        next_shot = frames[idx + 1][0]
-        game_score += Shot.new(next_shot).score
-      end
-    end
-    game_score
+    frames = create_frames
+    frames.sum(&:calculate_score)
   end
 
-  def split_frame_array
-    shots = @shots.split(',')
-    frame = []
-    frames = []
-    shots.each do |s|
-      frame << s
+  private
 
-      if frames.size < 10
-        if frame.size >= 2 || s == 'X'
-          frames << frame.dup
-          frame.clear
+  def create_frames
+    source_frames = parse_inputs
+    source_frames.map do |source_frame|
+      Frame.new(source_frame)
+    end
+  end
+
+  # 入力された得点を1つの配列が3つの要素を持つ多次元配列にparse
+  def parse_inputs
+    inputs = @input.split(',')
+    source_frames = []
+    source_frame = []
+
+    inputs.each do |input|
+      source_frame << input
+
+      if source_frames.size < 10
+        if source_frame.size >= 2 || input == 'X'
+          source_frames << source_frame.dup
+          source_frame.clear
         end
       else
-        frames.last << s
+        source_frames.last << input
       end
     end
-    frames
+    source_frames_with_three_values(source_frames)
+  end
+
+  def source_frames_with_three_values(parsed_inputs)
+    source_frames = []
+
+    9.times do |idx|
+      source_frame = parsed_inputs[idx]
+      source_next_frame = parsed_inputs[idx + 1]
+      source_next_after_frame = parsed_inputs[idx + 2]
+
+      if all_x_values?(source_frame)
+        concat_source_frame(source_frame, source_next_frame, source_next_after_frame)
+      elsif source_frame.size < 3
+        source_frame << source_next_frame[0] if source_next_frame
+      end
+
+      source_frames << if source_frame.size > 3
+                         source_frame[0..2]
+                       else
+                         source_frame
+                       end
+    end
+    source_frames << parsed_inputs.last if source_frames.size < 10
+  end
+
+  def concat_source_frame(source_frame, source_next_frame, source_next_after_frame)
+    if all_x_values?(source_next_frame)
+      source_frame.concat(source_next_frame).concat(source_next_after_frame)
+    else
+      source_frame.concat(source_next_frame)
+    end
+  end
+
+  def all_x_values?(source_frame)
+    source_frame.one? && source_frame.first == 'X'
   end
 end

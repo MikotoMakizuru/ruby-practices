@@ -3,21 +3,29 @@
 require_relative 'shot'
 
 class Frame
-  def initialize(frame)
-    @first_shot = Shot.new(frame[0])
-    @second_shot = Shot.new(frame[1])
-    @third_shot = Shot.new(frame[2])
+  def initialize(marks)
+    @first_shot = Shot.new(marks[0])
+    @second_shot = Shot.new(marks[1])
+    @third_shot = Shot.new(marks[2])
   end
 
-  def score
-    [@first_shot.score, @second_shot.score, @third_shot.score].sum
+  def calculate_score
+    if strike?
+      [@first_shot.score, @second_shot.score, @third_shot.score].sum
+    elsif spare?
+      [@first_shot.score, @second_shot.score, @third_shot.score].sum
+    else
+      [@first_shot.score, @second_shot.score].sum
+    end
   end
+
+  private
 
   def strike?
     @first_shot.score == 10
   end
 
   def spare?
-    score == 10
+    [@first_shot.score, @second_shot.score].sum == 10 && @first_shot.score != 10
   end
 end
