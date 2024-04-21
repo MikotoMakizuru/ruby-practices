@@ -25,6 +25,8 @@ class LongFormat
     [block_total] + files_info
   end
 
+  private
+
   def nlink_max_length
     @files_info.map { |file_info| file_info.nlink.to_s.size }.max
   end

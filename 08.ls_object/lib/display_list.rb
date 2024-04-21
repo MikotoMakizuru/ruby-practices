@@ -15,6 +15,8 @@ class DisplayList
     @options[:long_format] ? display_long_format(LongFormat.new(file_paths)) : display_short_format(ShortFormat.new(file_paths))
   end
 
+  private
+
   def collect_file_paths
     pathname = Pathname('test/fixtures/sample-app')
     pattern = pathname.join('*')

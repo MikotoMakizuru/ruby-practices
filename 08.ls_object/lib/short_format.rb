@@ -13,6 +13,8 @@ class ShortFormat
     end.join("\n")
   end
 
+  private
+
   def insert_sapce(row_files)
     row_files.map do |file|
       file ||= ''
