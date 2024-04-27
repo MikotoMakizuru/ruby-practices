@@ -6,8 +6,8 @@ require_relative '../lib/long_format'
 require_relative '../lib/option'
 
 class DisplayList
-  def initialize(params)
-    @options = Option.new(params).parse
+  def initialize(argv)
+    @options = Option.new(argv).parse
   end
 
   def run_ls
