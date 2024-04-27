@@ -4,7 +4,7 @@ require 'optparse'
 
 class Option
   def initialize(params)
-    @params = params
+    @params = extract_start_with_hyphen(params)
   end
 
   def parse
@@ -16,5 +16,11 @@ class Option
       opt.on('-a') { options[:dot_match] = true }
     end.parse!(@params)
     options
+  end
+
+  private
+
+  def extract_start_with_hyphen(params)
+    params.empty? ? [] : params.select { |param| param.start_with?('-') }
   end
 end

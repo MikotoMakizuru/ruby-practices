@@ -8,6 +8,7 @@ require_relative '../lib/option'
 class DisplayList
   def initialize(argv)
     @options = Option.new(argv).parse
+    @pathname = determine_pathname(argv)
   end
 
   def run_ls
@@ -17,9 +18,17 @@ class DisplayList
 
   private
 
+  def determine_pathname(params)
+    if params.empty?
+      Dir.pwd
+    else
+      specified_pathname = params.find { |param| !param.start_with?('-') }
+      specified_pathname || Dir.pwd
+    end
+  end
+
   def collect_file_paths
-    pathname = Pathname('test/fixtures/sample-app')
-    pattern = pathname.join('*')
+    pattern = Pathname(@pathname).join('*')
     options = @options[:dot_match] ? [pattern, File::FNM_DOTMATCH] : [pattern]
     file_paths = Dir.glob(*options)
     @options[:reverse] ? file_paths.reverse : file_paths
