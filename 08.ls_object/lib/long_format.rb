@@ -7,7 +7,13 @@ class LongFormat
     @files_info = file_paths.map { |file_path| FileInfo.new(file_path) }
   end
 
-  def format_row
+  def display
+    format_rows
+  end
+
+  private
+
+  def format_rows
     files_info = @files_info.map do |file_info|
       [
         "#{file_info.type}#{file_info.permission}",
@@ -21,8 +27,6 @@ class LongFormat
     end
     [block_total] + files_info
   end
-
-  private
 
   def nlink_max_length
     @files_info.map { |file_info| file_info.nlink.to_s.size }.max

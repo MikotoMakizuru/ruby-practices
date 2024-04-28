@@ -7,13 +7,17 @@ class ShortFormat
     @file_paths = file_paths
   end
 
+  def display
+    format_table
+  end
+
+  private
+
   def format_table
     transpose_files(@file_paths).map do |row_files|
       insert_sapce(row_files)
     end.join("\n")
   end
-
-  private
 
   def insert_sapce(row_files)
     row_files.map do |file|
