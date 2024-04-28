@@ -4,10 +4,7 @@ require_relative '../lib/file_info'
 
 class LongFormat
   def initialize(file_paths)
-    @files_info = file_paths.map do |file_path|
-      stat = File::Stat.new(file_path)
-      FileInfo.new(file_path, stat)
-    end
+    @files_info = file_paths.map { |file_path| FileInfo.new(file_path) }
   end
 
   def format_row

@@ -14,9 +14,9 @@ class FileInfo
     'socket' => 's'
   }.freeze
 
-  def initialize(file_path, stat)
+  def initialize(file_path)
     @file_path = file_path
-    @stat = stat
+    @stat = File::Stat.new(file_path)
   end
 
   def type
