@@ -14,14 +14,12 @@ class Permission
     '7' => 'rwx'
   }.freeze
 
-  attr_reader :stat
-
   def initialize(stat)
     @stat = stat
   end
 
   def mode
-    digits = stat.mode.to_s(8)[-3..]
+    digits = @stat.mode.to_s(8)[-3..]
     digits.gsub(/./, MODE_TABLE)
   end
 end
