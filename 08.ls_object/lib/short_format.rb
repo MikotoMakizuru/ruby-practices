@@ -34,10 +34,10 @@ class ShortFormat
   end
 
   def row_count(file_paths)
-    col_count(file_paths).zero? ? file_basenames(file_paths).count : (file_basenames(file_paths).count.to_f / col_count(file_paths)).ceil
+    column_count(file_paths).zero? ? file_basenames(file_paths).count : (file_basenames(file_paths).count.to_f / column_count(file_paths)).ceil
   end
 
-  def col_count(file_paths)
+  def column_count(file_paths)
     display_width_size / (filename_max_length(file_paths) + 8)
   end
 
