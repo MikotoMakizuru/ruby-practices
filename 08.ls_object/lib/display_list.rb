@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'pathname'
-require_relative '../lib/short_format'
-require_relative '../lib/long_format'
+require_relative '../lib/short_formatter'
+require_relative '../lib/long_formatter'
 require_relative '../lib/option'
 
 class DisplayList
@@ -13,8 +13,8 @@ class DisplayList
 
   def run_ls
     file_paths = collect_file_paths
-    formatted = @options[:long_format] ? LongFormat.new(file_paths) : ShortFormat.new(file_paths)
-    display(formatted)
+    formatter = @options[:long_format] ? LongFormatter.new(file_paths) : ShortFormatter.new(file_paths)
+    puts formatter.format
   end
 
   private
@@ -33,9 +33,5 @@ class DisplayList
     options = @options[:dot_match] ? [pattern, File::FNM_DOTMATCH] : [pattern]
     file_paths = Dir.glob(*options)
     @options[:reverse] ? file_paths.reverse : file_paths
-  end
-
-  def display(formatted)
-    puts formatted.display
   end
 end
